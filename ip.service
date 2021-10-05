@@ -1,0 +1,10 @@
+[Unit]
+Description=Ip
+
+[Service]
+User=core
+ExecStart=/bin/podman run -p 5679:5679 -p 5678:5678 -v /etc/krkstops/certs:/etc/ip:ro --env-file /etc/ip/.env docker.io/narciarz96/ip
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
