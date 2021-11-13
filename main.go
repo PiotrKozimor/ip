@@ -47,10 +47,10 @@ func main() {
 	tlsKey := os.Getenv("TLS_KEY")
 	tlsOn := tlsCert != "" && tlsKey != ""
 	if tlsOn {
-		log.Printf("cert: %s, key: %s", tlsCert, tlsKey)
+		log.Printf("TLS_CERT: %s, TLS_KEY: %s", tlsCert, tlsKey)
 		go func() {
-			log.Print(http.ListenAndServeTLS(os.Getenv("LISTEN_ADDRESS_TLS"), tlsCert, tlsKey, nil))
+			log.Print(http.ListenAndServeTLS("0.0.0.0:443", tlsCert, tlsKey, nil))
 		}()
 	}
-	log.Print(http.ListenAndServe(os.Getenv("LISTEN_ADDRESS"), nil))
+	log.Print(http.ListenAndServe("0.0.0.0:80", nil))
 }
