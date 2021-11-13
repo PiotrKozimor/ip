@@ -1,11 +1,8 @@
 set -ex
-go build .
+CGO_ENABLED=0 go build .
 cont=$(buildah from scratch)
 buildah copy $cont ip /bin/ip
-buildah copy $cont /lib64/libpthread.so.0 /lib64/libpthread.so.0
-buildah copy $cont /lib64/libc.so.6 /lib64/libc.so.6
-buildah copy $cont /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
-buildah config --entrypoint '["/bin/ip"]'  $cont
+buildah config --entrypoint '["/bin/ip"]' --port 80 --port 443 $cont
 buildah commit $cont ip
 echo "👌 Tag nad push latest"
 buildah tag ip docker.io/narciarz96/ip:latest
